@@ -37,7 +37,7 @@ public class DemoRunner implements CommandLineRunner {
         System.out.println("Criteria long titles (>10): " + manager.findBooksWithLongTitles(10));
 
         if (manager.list().size() > 1) {
-            Long idToDelete = manager.list().get(1).getId();
+            Long idToDelete = manager.list().get(0).getId();
             manager.delete(idToDelete);
         }
         System.out.println("After delete: " + manager.list());
