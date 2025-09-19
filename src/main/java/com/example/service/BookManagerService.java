@@ -42,12 +42,12 @@ public class BookManagerService {
         repo.deleteById(id);
     }
 
-    public List<Book> searchByTitle(String q) {
-        return repo.searchByTitle(q);
+    public List<Book> findBooksByTitleContains(String keyword) {
+        return repo.findBooksByTitleContains(keyword);
     }
 
-    public List<Book> findByAuthorExact(String author) {
-        return repo.findByAuthorExact(author);
+    public List<Book> findBooksByAuthor(String author) {
+        return repo.findBooksByAuthor(author);
     }
 
     public List<Book> findBooksWithLongTitles(int len) {

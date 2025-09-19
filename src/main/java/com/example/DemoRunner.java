@@ -10,8 +10,10 @@ import java.util.List;
 @Component
 public class DemoRunner implements CommandLineRunner {
     private final BookManagerService manager;
+
     public DemoRunner(BookManagerService manager) {
-        this.manager = manager; }
+        this.manager = manager;
+    }
 
     @Override
     public void run(String... args) {
@@ -20,16 +22,19 @@ public class DemoRunner implements CommandLineRunner {
             manager.add("Brave New World", "Aldous Huxley");
             manager.add("Clean Code", "Robert C. Martin");
         }
+
         List<Book> all = manager.list();
         System.out.println("All: " + all);
 
-        Book first = all.get(0);
-        manager.update(first.getId(), "Nineteen Eighty-Four", "George Orwell");
-        System.out.println("After update: " + manager.find(first.getId()));
+        if (!all.isEmpty()) {
+            Book first = all.get(0);
+            manager.update(first.getId(), "Nineteen Eighty-Four", "George Orwell");
+            System.out.println("After update: " + manager.find(first.getId()));
+        }
 
-        System.out.println("HQL searchByTitle('new'): " + manager.searchByTitle("new"));
-        System.out.println("HQL findByAuthorExact('George Orwell'): " + manager.findByAuthorExact("George Orwell"));
-        System.out.println("HQL findBooksWithLongTitles(10): " + manager.findBooksWithLongTitles(10));
+        System.out.println("Criteria title contains 'new': " + manager.findBooksByTitleContains("new"));
+        System.out.println("Criteria author exact 'George Orwell': " + manager.findBooksByAuthor("George Orwell"));
+        System.out.println("Criteria long titles (>10): " + manager.findBooksWithLongTitles(10));
 
         if (manager.list().size() > 1) {
             Long idToDelete = manager.list().get(1).getId();
