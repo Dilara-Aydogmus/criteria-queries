@@ -53,4 +53,8 @@ public class BookManagerService {
     public List<Book> findBooksWithLongTitles(int len) {
         return repo.findBooksWithLongTitles(len);
     }
+
+    public List<Book> findBooksWithLong(String author, String title){
+        return repo.findBooksWithLong(author, title);
+    }
 }

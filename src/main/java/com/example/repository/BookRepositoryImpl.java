@@ -14,32 +14,52 @@ import java.util.List;
 public class BookRepositoryImpl implements BookRepositoryCustom {
 
     @PersistenceContext
-    private EntityManager em;
+    private EntityManager entityManager;
 
     @Override
     public List<Book> findBooksByTitleContains(String keyword) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Book> cq = cb.createQuery(Book.class);
-        Root<Book> root = cq.from(Book.class);
-        cq.select(root).where(cb.like(cb.lower(root.get("title")), "%" + keyword.toLowerCase() + "%"));
-        return em.createQuery(cq).getResultList();
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Book> criteriaQuery = criteriaBuilder.createQuery(Book.class);
+        Root<Book> root = criteriaQuery.from(Book.class);
+        criteriaQuery.select(root).where(criteriaBuilder.like(criteriaBuilder.lower(root.get("title")), "%" + keyword.toLowerCase() + "%"));
+        return entityManager.createQuery(criteriaQuery).getResultList();
     }
 
     @Override
     public List<Book> findBooksByAuthor(String author) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Book> cq = cb.createQuery(Book.class);
-        Root<Book> root = cq.from(Book.class);
-        cq.select(root).where(cb.equal(root.get("author"), author));
-        return em.createQuery(cq).getResultList();
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Book> criteriaQuery = criteriaBuilder.createQuery(Book.class);
+        Root<Book> root = criteriaQuery.from(Book.class);
+        criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("author"), author));
+        return entityManager.createQuery(criteriaQuery).getResultList();
     }
 
     @Override
     public List<Book> findBooksWithLongTitles(int len) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Book> cq = cb.createQuery(Book.class);
-        Root<Book> root = cq.from(Book.class);
-        cq.select(root).where(cb.gt(cb.length(root.get("title")), len));
-        return em.createQuery(cq).getResultList();
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Book> criteriaQuery = criteriaBuilder.createQuery(Book.class);
+        Root<Book> root = criteriaQuery.from(Book.class);
+        criteriaQuery.select(root).where(criteriaBuilder.gt(criteriaBuilder.length(root.get("title")), len));
+        return entityManager.createQuery(criteriaQuery).getResultList();
     }
+
+    @Override
+    public List<Book> findBooksWithLong(String author, String title) {
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Book> createQuery = criteriaBuilder.createQuery(Book.class);
+        Root<Book> book = createQuery.from(Book.class);
+        if (author != null) {
+            createQuery.select(book).where(criteriaBuilder.equal(book.get("author"), author));
+        }
+        if (title != null) {
+            createQuery.select(book).where(criteriaBuilder.equal(book.get("title"), title));
+        }
+
+        return entityManager.createQuery(createQuery).getResultList();
+    }
+
 }

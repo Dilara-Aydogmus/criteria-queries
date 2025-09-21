@@ -35,6 +35,10 @@ public class DemoRunner implements CommandLineRunner {
         System.out.println("Criteria title contains 'new': " + manager.findBooksByTitleContains("new"));
         System.out.println("Criteria author exact 'George Orwell': " + manager.findBooksByAuthor("George Orwell"));
         System.out.println("Criteria long titles (>10): " + manager.findBooksWithLongTitles(10));
+        System.out.println("if-else" + manager.findBooksWithLong("yazar", "kitap adi"));
+        System.out.println("if-else" + manager.findBooksWithLong(null, "kitap adi"));
+        System.out.println("if-else" + manager.findBooksWithLong("yeni yazar", null));
+        System.out.println("if-else" + manager.findBooksWithLong(null, null));
 
         if (manager.list().size() > 1) {
             Long idToDelete = manager.list().get(0).getId();
@@ -42,4 +46,6 @@ public class DemoRunner implements CommandLineRunner {
         }
         System.out.println("After delete: " + manager.list());
     }
+
+
 }

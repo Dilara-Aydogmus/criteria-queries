@@ -7,4 +7,6 @@ public interface BookRepositoryCustom {
     List<Book> findBooksByTitleContains(String keyword);
     List<Book> findBooksByAuthor(String author);
     List<Book> findBooksWithLongTitles(int len);
+
+    List<Book> findBooksWithLong(String author, String title);
 }
